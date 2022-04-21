@@ -1,13 +1,17 @@
 // .vscode/settings.json
 {
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-    "eslint.options": {
-      "extensions": [".mdx"]
-    },
-    "eslint.validate": [
-      "mdx",
-    ],
-    "eslint.packageManager": "yarn"
-  }
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.options": {
+    "extensions": [
+      ".mdx"
+    ]
+  },
+  "eslint.validate": [
+    "mdx",
+  ],
+  "eslint.packageManager": "yarn",
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true
+}

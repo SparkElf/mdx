@@ -1,6 +1,5 @@
 import esbuild from 'esbuild'
-import mdx from '@mdx-js/esbuild'
-const entryName = process.argv[2]
+
 
 /*
 //获取目录下所有mdx文件的文件名
@@ -28,20 +27,19 @@ function getAllMDXFileName(filePath: string) {//缺点是不允许重名
 }
 let names = getAllMDXFileName('src')
 */
-
-await esbuild.build({
-  entryPoints: [`src/${entryName}.mdx`],
-  outfile: `static/${entryName}.js`,
-  "bundle": true,//打包外部依赖,
-  //"external": ["react/jsx-runtime"],//不打包的依赖
-  "minify": true,
-  legalComments: "none",
-  format: 'esm',
-  loader: {
-    '.tsx': 'tsx'
-  },
-  absWorkingDir: process.cwd(),
-  jsxFactory: 'React.createElement',
-  jsxFragment: 'React.Fragment',
-  plugins: [mdx({})]
-})
+export const buildServer = () => {
+    esbuild.build({
+        entryPoints: [`src/server/server.ts`],
+        outfile: `build/server.js`,
+        "bundle": true,//打包import而不是只编译单个文件
+        "minify": true,
+        legalComments: "none",
+        format: 'esm',
+        loader: {
+            '.ts': 'ts'
+        },
+        platform: 'node',
+        logLevel: 'info',
+        external: ['./node_modules/*']
+    })
+}

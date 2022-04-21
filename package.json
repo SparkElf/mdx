@@ -5,30 +5,39 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "MDX-build": "node --loader ts-node/esm .\\esbuild\\buildMDX.prod.ts",
-    "MDX-dev": "node --loader ts-node/esm .\\esbuild\\buildMDX.dev.ts",
-    "server": "node --loader ts-node/esm .\\src/server.ts",
-    "watch": "node --loader ts-node/esm .\\esbuild\\watchMDX.prod.ts"
+    "clean": "rmdir /s/q build",
+    "script": "node ./build/script/index.js",
+    "deploy": "yarn clean && yarn script-init && yarn server-build && yarn script --deploy",
+    "MDX-build": "yarn script --buildMDX",
+    "MDX-watch": "yarn script --watchMDX",
+    "server-build": "yarn script --buildServer",
+    "server-watch": "yarn script --watchServer",
+    "script-init": "node ./script/init.js"
   },
   "dependencies": {
     "@mdx-js/esbuild": "^2.1.0",
     "@mdx-js/react": "^2.1.0",
-    "cabin": "^9.1.2",
+    "@prisma/client": "^3.12.0",
+    "@types/koa-router": "^7.4.4",
     "koa": "^2.13.4",
+    "koa-body": "^4.2.0",
+    "koa-logger": "^3.2.1",
     "koa-mount": "^4.0.0",
+    "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
+    "prisma": "^3.12.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@types/koa": "^2.13.4",
     "@types/koa-mount": "^4.0.1",
     "@types/koa-static": "^4.0.2",
     "@types/node": "^17.0.21",
     "@types/nodemon": "^1.19.1",
+    "@types/react": "^17.0.42",
     "esbuild": "^0.14.27",
+    "iconv-lite": "^0.6.3",
     "nodemon": "^2.0.15",
-    "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   }
 }

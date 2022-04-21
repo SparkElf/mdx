@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//https://www.prisma.io/docs/concepts/database-connectors/mysql
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//https://www.notion.so/Nodejs-24256865593047a49605c97da2e9ad60#3d57e6afab4c4988a6452c2fef5748e7
+//https://www.notion.so/Nodejs-24256865593047a49605c97da2e9ad60#c38e6f44e4d94163befe3057fd888529
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  brief     String?  @db.Text
+  content   String   @db.Text
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+
+}
+
+//审慎设计可空字段
+model User {
+  id      Int     @id @default(autoincrement())
+  name    String
+  posts   Post[]
+  website String?
+  avatar  String?
+}
+
+model Tag {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(12)
+  PostTag PostTag[]
+}
+
+model PostTag {
+  id    Int @id @default(autoincrement())
+  tag   Tag @relation(fields: [tagId], references: [id])
+  tagId Int
+
+}
+
+// Just for type intellisense
+model VirtualTable {
+  id Int @id @default(autoincrement())
+}
