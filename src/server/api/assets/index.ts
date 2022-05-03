@@ -1,10 +1,9 @@
 import formidable, { File } from 'formidable'
-import { existsSync, rename, renameSync } from 'fs'
-import koaBody from 'koa-body'
+import { existsSync, renameSync } from 'fs'
 import Router from 'koa-router'
-import path, { basename, extname, resolve } from 'path'
+import { extname } from 'path'
 import { cwd } from 'process'
-import { prisma } from 'src/server/context/context'
+import { prisma, serverURL } from 'src/server/context/context'
 
 const AssetsAPI = new Router<{
     fields: formidable.Fields
@@ -33,7 +32,7 @@ AssetsAPI.//NOTE -  multipart的支持不友好，所以控制参数只能写在
                     }
                     console.log(dir + fileName)
                     if (existsSync(dir + fileName)) {
-                        ctx.body.push({ msg: "file already existsSync",src:'http://localhost:6009/static/image/raw/'+fileName})
+                        ctx.body.push({ msg: "file already existsSync",src:`${serverURL()}/static/image/raw/`+fileName})
                         return false
                     }
                     return true
@@ -53,10 +52,10 @@ AssetsAPI.//NOTE -  multipart的支持不友好，所以控制参数只能写在
                             file.newFilename = file.hash + extname(file.originalFilename)
                             renameSync(file.filepath, dir + file.newFilename)
                             ctx.state.count++
-                            ctx.body.push({ src: 'http://localhost:6009/static/image/raw/' + file.newFilename })
+                            ctx.body.push({ src: `${serverURL()}/static/image/raw/` + file.newFilename })
                             await prisma.image.create({
                                 data: {
-                                    src: 'http://localhost:6009/static/image/raw/' + file.newFilename
+                                    src: `${serverURL()}/static/image/raw/` + file.newFilename
                                 }
                             })
                         }
@@ -65,10 +64,10 @@ AssetsAPI.//NOTE -  multipart的支持不友好，所以控制参数只能写在
                         file.newFilename = file.hash + extname(file.originalFilename)
                         renameSync(file.filepath, dir + file.newFilename)
                         ctx.state.count++
-                        ctx.body.push({ src: 'http://localhost:6009/static/image/raw/' + file.newFilename })
+                        ctx.body.push({ src: `${serverURL()}/static/image/raw/` + file.newFilename })
                         await prisma.image.create({
                             data: {
-                                src: 'http://localhost:6009/static/image/raw/' + file.newFilename
+                                src: `${serverURL()}/static/image/raw/`+ file.newFilename
                             }
                         })
 
@@ -95,7 +94,7 @@ AssetsAPI.//NOTE -  multipart的支持不友好，所以控制参数只能写在
                     }
                     console.log(dir + fileName)
                     if (existsSync(dir + fileName)) {
-                        ctx.body.push({ msg: "file already existsSync",src:'http://localhost:6009/static/article/'+fileName})
+                        ctx.body.push({ msg: "file already existsSync",src:`${serverURL()}/static/article/`+fileName})
                         return false
                     }
                     return true ////
@@ -114,7 +113,7 @@ AssetsAPI.//NOTE -  multipart的支持不友好，所以控制参数只能写在
                         const meta = JSON.parse(fields.meta as string)
                         file.newFilename = `${meta.directory}_${file.hash}.js`//NOTE:防止哈希伪造
                         renameSync(file.filepath, dir + file.newFilename)
-                        const src = 'http://localhost:6009/static/article/' + file.newFilename
+                        const src = `${serverURL()}/static/article/${file.newFilename}`
                         ctx.body = { src }
                         await prisma.article.create({//https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#connectorcreate
                             data: {

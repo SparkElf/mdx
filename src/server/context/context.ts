@@ -12,7 +12,16 @@ type Config = {
         ip: string
         username: string
         projectDir: string//根目录为/home/username
+        port:number
     }
 }
 const dir = process.cwd()
-export const config: Config = JSON.parse(readFileSync(dir + '/config.json', 'utf-8'))
+export let config: Config
+export function initConfig(env: string) {
+    config=JSON.parse(readFileSync(dir + '/config.json', 'utf-8'))
+    if (env === '--dev') config.server.ip = 'localhost'
+    global.config = config
+}
+export function serverURL() {
+    return `http://${global.config.server.ip}:${global.config.server.port}`
+}
