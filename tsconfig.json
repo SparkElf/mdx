@@ -93,5 +93,5 @@
   "include": [
     "./src/**/*.ts",
     "./script/**/*.ts"
-  ]
+, "script/watchServer.js", "script/buildServer.js", "script/deploy.js"  ]
 }

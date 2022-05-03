@@ -1,6 +1,6 @@
 import Router from 'koa-router'
 import { Int } from 'src/util/number'
-import { prisma } from '../context/context'
+import { prisma } from '../../context/context'
 //TODO - 为前端接口提供良好的prisma scheme支持 当然过分开放API能力会导致安全问题
 const SimpleAPI = new Router()
 const BaseRoute = new Router()

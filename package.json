@@ -6,28 +6,26 @@
   "type": "module",
   "scripts": {
     "clean": "rmdir /s/q build",
-    "script": "node ./build/script/index.js",
-    "deploy": "yarn clean && yarn script-init && yarn server-build && yarn script --deploy",
-    "MDX-build": "yarn script --buildMDX",
-    "MDX-watch": "yarn script --watchMDX",
-    "server-build": "yarn script --buildServer",
-    "server-watch": "yarn script --watchServer",
-    "script-init": "node ./script/init.js"
+    "deploy": "node ./script/deploy.js",
+    "server-build": "node ./script/buildServer.js",
+    "server-watch": "node ./script/watchServer.js"
   },
   "dependencies": {
     "@mdx-js/esbuild": "^2.1.0",
     "@mdx-js/react": "^2.1.0",
-    "@prisma/client": "^3.12.0",
+    "@prisma/client": "^3.13.0",
     "@types/koa-router": "^7.4.4",
+    "formidable": "^2.0.1",
     "koa": "^2.13.4",
-    "koa-body": "^4.2.0",
+    "koa-body": "^5.0.0",
     "koa-logger": "^3.2.1",
     "koa-mount": "^4.0.0",
     "koa-router": "^10.1.1",
     "koa-static": "^5.0.0",
-    "prisma": "^3.12.0",
+    "prisma": "^3.13.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "shiki": "^0.10.1"
   },
   "devDependencies": {
     "@types/koa-mount": "^4.0.1",

@@ -13,38 +13,48 @@ datasource db {
 
 //https://www.notion.so/Nodejs-24256865593047a49605c97da2e9ad60#3d57e6afab4c4988a6452c2fef5748e7
 //https://www.notion.so/Nodejs-24256865593047a49605c97da2e9ad60#c38e6f44e4d94163befe3057fd888529
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  brief     String?  @db.Text
-  content   String   @db.Text
-  author    User     @relation(fields: [authorId], references: [id])
+//https://www.prisma.io/docs/concepts/components/prisma-client/middleware/soft-delete-middleware
+//NOTE - 请注意prisma多对多关系的隐式关系表
+//软删除字段的过期删除 不维护定时器，而是每次查询到该删除字段时比较存活时间，惰性化
+//TODO  实现软删除
+model Article {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deleted   DateTime?
+  title     String    @db.VarChar(255)
+  brief     String?   @db.Text
+  content   String    @db.VarChar(800)
+  cover     String    @db.VarChar(800)
+  author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
-
+  readTime  Int
+  tags      Tag[]     @relation("TagAndArticle")
 }
 
 //审慎设计可空字段
 model User {
-  id      Int     @id @default(autoincrement())
-  name    String
-  posts   Post[]
-  website String?
-  avatar  String?
+  id       Int       @id @default(autoincrement())
+  name     String
+  articles Article[]
+  website  String?
+  avatar   String?
+  profile String?
 }
 
 model Tag {
-  id      Int       @id @default(autoincrement())
-  name    String    @db.VarChar(12)
-  PostTag PostTag[]
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(12) @unique
+  articles Article[] @relation("TagAndArticle")
+  images   Image[]   @relation("TagAndImage")
 }
 
-model PostTag {
-  id    Int @id @default(autoincrement())
-  tag   Tag @relation(fields: [tagId], references: [id])
-  tagId Int
-
+model Image {
+  id    Int     @id @default(autoincrement())
+  src   String  @db.VarChar(800)
+  title String? @db.VarChar(255)
+  brief String? @db.Text
+  tags  Tag[]   @relation("TagAndImage")
 }
 
 // Just for type intellisense
