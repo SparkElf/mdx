@@ -1,3 +1,4 @@
+import koaBody from 'koa-body'
 import Router from 'koa-router'
 import { Int } from 'src/util/number'
 import { prisma } from '../../context/context'
@@ -76,6 +77,7 @@ BaseRoute
             })
     })
 SimpleAPI
+    .use(koaBody())
     .use('simple/:type',
         FormatParams,
         BaseRoute.routes(), BaseRoute.allowedMethods()

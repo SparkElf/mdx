@@ -29,6 +29,7 @@ model Article {
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
   readTime  Int
+  views     Int       @default(0)
   tags      Tag[]     @relation("TagAndArticle")
 }
 

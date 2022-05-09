@@ -9,10 +9,9 @@ export const watchServer = () => {
             ],
             "ext": "ts,json",
             "ignore": [
-                "src/mdx",
-                "src/components"
+                "test"
             ],
-            "exec": "yarn server-build && node ./build/server.js --dev"
+            "exec": "yarn build --dev && node ./build/server.js --dev"
         }
     )
 }

@@ -1,3 +1,4 @@
+import koaBody from 'koa-body'
 import Router from 'koa-router'
 import { prisma } from 'src/server/context/context'
 
@@ -17,6 +18,7 @@ Post
     })
 
 GraphAPI.use('graph',
+    koaBody(),
     Post.routes(), Post.allowedMethods()
 )
 export { GraphAPI }

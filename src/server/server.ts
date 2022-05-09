@@ -5,9 +5,7 @@ import Static from 'koa-static'
 import API from './api'
 import { config, initConfig } from './context/context'
 
-console.log(process.argv[2])
 initConfig(process.argv[2])
-
 const app = new Koa()//https://stackoverflow.com/questions/43160598/adding-properties-to-koa2s-context-in-typescript
 app
     .use(Logger())
