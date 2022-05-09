@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "clean": "rmdir /s/q build",
-    "deploy": "script/client/deploy.ps1",
-    "build": "node ./script/build.js",
-    "watch": "node ./script/watch.js",
+    "deploy": "node ./script/local/deploy.js",
+    "build": "node ./script/local/build.js",
+    "watch": "node ./script/local/watch.js",
     "test": "vitest --config ./config/vitest.config.ts"
   },
   "dependencies": {
